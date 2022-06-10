@@ -42,55 +42,59 @@ function App() {
       var auxV = []
       let calculateWeight = parseFloat(actualW) + parseFloat(localQuantity)
       let cost = inventory.filter( p => p.name === product )
-      let calculateAmount = parseFloat(actualA) + parseFloat(cost[0].value) * parseFloat(localQuantity / 1000)
-      
-      let data = {
-        product: product,
-        value:   parseFloat(cost[0].value) * parseFloat(localQuantity / 1000).toFixed(2),
-        weight: parseFloat(localQuantity)
+      console.log(cost)
+      if(cost.length === 0){
+        alert(product + " prodcut has no inventory.")
       }
+      else{
+        let calculateAmount = parseFloat(actualA) + parseFloat(cost[0].value) * parseFloat(localQuantity / 1000)
+        let data = {
+          product: product,
+          value:   parseFloat(cost[0].value) * parseFloat(localQuantity / 1000).toFixed(2),
+          weight: parseFloat(localQuantity)
+        }
+        actual_package.push(data)
 
-      actual_package.push(data)
-
-      if(localQuantity === 1000){
-        if(actual_package.length === 1){
-          actualA = data.value
-          closePackage()
-          initializerValues()
-          calculateWeight = 0
-          calculateAmount = 0
-        }else{
+        if(localQuantity === 1000){
+          if(actual_package.length === 1){
+            actualA = data.value
+            closePackage()
+            initializerValues()
+            calculateWeight = 0
+            calculateAmount = 0
+          }else{
+            auxV = actual_package.pop()
+            closePackage()
+            initializerValues()
+            calculateWeight = 0
+            calculateAmount = 0
+            calculate(auxV.product, auxV.weight)
+          }
+        }
+        else if(calculateWeight > 1000)
+        {
           auxV = actual_package.pop()
           closePackage()
-          initializerValues()
-          calculateWeight = 0
-          calculateAmount = 0
-          calculate(auxV.product, auxV.weight)
-        }
-      }
-      else if(calculateWeight > 1000)
-      {
-        auxV = actual_package.pop()
-        closePackage()
-        actual_package.push(auxV)
-        actualW = actual_package[0].weight
-        actualA = actual_package[0].value
-        setActualWeight(actual_package[0].weight)
-        setActualAmount(actual_package[0].value)
+          actual_package.push(auxV)
+          actualW = actual_package[0].weight
+          actualA = actual_package[0].value
+          setActualWeight(actual_package[0].weight)
+          setActualAmount(actual_package[0].value)
 
+        }
+        else if(calculateWeight === 1000){
+          actualA = actualA + data.value
+          closePackage()
+          initializerValues()
+        }else{
+          actualW = calculateWeight
+          actualA = calculateAmount
+          setActualWeight(calculateWeight)
+          setActualAmount(calculateAmount)
+        }
+        
+        clearParams()
       }
-      else if(calculateWeight === 1000){
-        actualA = actualA + data.value
-        closePackage()
-        initializerValues()
-      }else{
-        actualW = calculateWeight
-        actualA = calculateAmount
-        setActualWeight(calculateWeight)
-        setActualAmount(calculateAmount)
-      }
-      
-      clearParams()
     }else{
       alert("Add values less than 1000 g.")
       clearParams()
