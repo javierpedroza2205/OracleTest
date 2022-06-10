@@ -20,10 +20,10 @@ const purchase_list = [
                     ]
 
 const package_tax = 1;
-var actual_package = [];
-var global_package = [];
-var actualW = 0.0
-var actualA = 0.0
+let actual_package = [];
+let global_package = [];
+let actualW = 0.0
+let actualA = 0.0
 
 function App() {
   const [quantity, setQuantity] = useState()
@@ -39,7 +39,7 @@ function App() {
 
   function calculate(product, localQuantity) {
     if(localQuantity <= 1000){
-      var auxV = []
+      let auxV = []
       let calculateWeight = parseFloat(actualW) + parseFloat(localQuantity)
       let cost = inventory.filter( p => p.name === product )
       if(cost.length === 0){
@@ -137,7 +137,7 @@ function App() {
   }
 
   function closePackage(val) {
-    var data = {
+    let data = {
       products: actual_package,
       price : (parseFloat(actualA) + package_tax).toFixed(2),
     }
