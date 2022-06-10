@@ -1,5 +1,11 @@
+.Separated {
+  margin-left: 2vh;
+}
+
+
 .App {
   text-align: center;
+  margin-bottom: 2rem;
 }
 
 .App-logo {
