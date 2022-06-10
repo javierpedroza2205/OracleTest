@@ -42,7 +42,6 @@ function App() {
       var auxV = []
       let calculateWeight = parseFloat(actualW) + parseFloat(localQuantity)
       let cost = inventory.filter( p => p.name === product )
-      console.log(cost)
       if(cost.length === 0){
         alert(product + " prodcut has no inventory.")
       }
